@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     int listViewIdSQLFromContextMenu;
     int idFromSQL;
     MovieListAdapter movieListAdapter;
-    //#######################MENUS########################################################################################
+    //#######################MENUS########################################################################
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
