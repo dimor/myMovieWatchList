@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     /////////////////////VARS/////////////////////////
     Cursor cursor;
-    SimpleCursorAdapter adapter;
     SqlDatabase database;
     ListView mainLV;
     int listViewPositionFromContextMenu;
