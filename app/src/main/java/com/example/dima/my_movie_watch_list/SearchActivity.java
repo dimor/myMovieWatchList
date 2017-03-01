@@ -22,7 +22,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class searchDataOnWeb extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
     ArrayList<MovieData> allMoviesSearch;
     ArrayAdapter<MovieData> adapterArrayList;
     ListView searchResultLV;
@@ -31,7 +31,7 @@ public class searchDataOnWeb extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_data_on_web);
+        setContentView(R.layout.activity_search);
 
         /////////////////////////////////////////ListView Initialization/////////////////////////////
         searchResultLV = (ListView) findViewById(R.id.searchMovieLV);
@@ -61,7 +61,7 @@ public class searchDataOnWeb extends AppCompatActivity {
                 positionOfArrayList = position;
                 String imdbID = allMoviesSearch.get(position).getImdbID();
                 String urlPoster = allMoviesSearch.get(position).getUrl();
-                Intent goToWatchScreen = new Intent(searchDataOnWeb.this, WatchActivity.class);
+                Intent goToWatchScreen = new Intent(SearchActivity.this, WatchActivity.class);
                 goToWatchScreen.putExtra(DbConstants.MOVIE_IMDB_ID, imdbID);
                 goToWatchScreen.putExtra(DbConstants.MOVIE_URL_IMAGE, urlPoster);
                 DbConstants.COMES_FROM_SEARCH_ACTIVITY=true;
@@ -79,7 +79,7 @@ public class searchDataOnWeb extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
 
-            progress = ProgressDialog.show(searchDataOnWeb.this, "Searching..",
+            progress = ProgressDialog.show(SearchActivity.this, "Searching..",
                     "Please Wait", true, false);
             super.onPreExecute();
         }

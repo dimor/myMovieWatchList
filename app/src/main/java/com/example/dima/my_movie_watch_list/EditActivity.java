@@ -1,213 +1,203 @@
 package com.example.dima.my_movie_watch_list;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
-import static com.example.dima.my_movie_watch_list.DbConstants.EDIT_MODE;
-import static com.example.dima.my_movie_watch_list.DbConstants.EDIT_MODE_FROM_SEARCH;
-
-public class EditActivity extends AppCompatActivity implements View.OnClickListener {
-
-    ///////////////////////VARS///////////////
-    SqlDatabase database = new SqlDatabase(this);
-    Integer idSql;
-    EditText subjet;
-    EditText body;
-    EditText url;
-    Button save;
-    Button cancel;
-    Button show;
-    ImageView logo;
-    ProgressDialog progress;
-    RatingBar ratingBar;
-    Float myrate;
-    /////////////////////////////////////////////////
-    String year;
-    String imdbRating;
+public class EditActivity extends AppCompatActivity {
+    SqlDatabase sqlDatabase;
+    ProgressDialog progressDataMovie;
+    ProgressDialog progressPicture;
     String imageString;
-    ////////////////////////////////////////////////
+    String imdbid;
+    String posterUrl;
+    Integer movieId;
+///////////////////////Views Initialization/////////////////////////
+    EditText movieTitle ;
+    ImageView logo;
+    EditText url;
+    EditText plot;
+    EditText movieInformationTitle;
+    EditText year;
+    EditText rated;
+    EditText released;
+    EditText runtime;
+    EditText genre;
+    EditText director;
+    Button cancel;
+    Button save;
+    ImageButton myRatingBtn;
+    Dialog rankDialog;
+    TextView myRatingTV;
+    RatingBar ratingBar;
+    String myRating;
+/////////////////////////////////////////////////////////////////////
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        ////////////////VIEWS/////////////////////
 
-        subjet = (EditText) findViewById(R.id.subjectET);
-        body = (EditText) findViewById(R.id.bodyET);
+
+        sqlDatabase = new SqlDatabase(this);
+
+
+
+        movieTitle = (EditText)findViewById(R.id.movieNameET);
         url = (EditText) findViewById(R.id.urlET);
-        save = (Button) findViewById(R.id.saveBtn);
-        cancel = (Button) findViewById(R.id.cancelBtn);
-        show = (Button) findViewById(R.id.showBtn);
-        ratingBar = (RatingBar)findViewById(R.id.myRating);
-        save.setOnClickListener(this);
-        cancel.setOnClickListener(this);
-        show.setOnClickListener(this);
-//////////////////////////////OnCreate Initialization ////////////////////////////////////////////////////
+        plot = (EditText) findViewById( R.id.moviePlotET);
+        movieInformationTitle = (EditText)findViewById(R.id.movieInformationTitleET);
+        year = (EditText)findViewById(R.id.movieYearET);
+        rated=(EditText)findViewById(R.id.movieRatedET);
+        released = (EditText) findViewById(R.id.movieReleasedET);
+        runtime = (EditText)findViewById(R.id.movieRuntimeET);
+        genre = (EditText) findViewById(R.id.movieGenreET);
+        director= (EditText)findViewById(R.id.movieDirectorET);
+        save = (Button)findViewById(R.id.movieSaveBtn);
+        logo = (ImageView)findViewById(R.id.moviePosterIV);
+        save = (Button)findViewById(R.id.movieEditSaveBtn);
+        cancel = (Button)findViewById(R.id.movieEditCancelBtn);
+        myRatingBtn = (ImageButton)findViewById(R.id.myRatingIB) ;
+        myRatingTV = (TextView)findViewById(R.id.myRatingTV);
+        save.setText("Add");
+        myRatingTV.setText("Set Rating");
 
-        if (EDIT_MODE) { // if the activity called from context menu or MainActivity listview
-            Intent reciveDataFromItemClick = getIntent();
-            idSql = reciveDataFromItemClick.getIntExtra(DbConstants.MOVIE_ID, -1); // sql id to update database
-            subjet.setText(reciveDataFromItemClick.getStringExtra(DbConstants.MOVIE_SUBJECT));
-            body.setText(reciveDataFromItemClick.getStringExtra(DbConstants.MOVIE_BODY));
-            url.setText(reciveDataFromItemClick.getStringExtra(DbConstants.MOVIE_URL_IMAGE));
-        } else if (EDIT_MODE_FROM_SEARCH) {  // if the activity called from searchDataonWeb Acticity
-            downloadBodyThread thread1 = new downloadBodyThread();
-            Intent reciveDataFromSearch = getIntent();
-            String imdbID = reciveDataFromSearch.getStringExtra("ImdbID");
-            thread1.execute("http://www.omdbapi.com/?i=" + imdbID); // get body
-            subjet.setText(reciveDataFromSearch.getStringExtra(DbConstants.MOVIE_SUBJECT));
-            url.setText(reciveDataFromSearch.getStringExtra(DbConstants.MOVIE_URL_IMAGE));
-            DbConstants.EDIT_MODE_FROM_SEARCH = false;
-        }
-    }
-    /////////////////////////////////////////////onClickListener for buttons////////////////////////////////////////
-    @Override
-    public void onClick(View v) {
-        if  (v.getId() == R.id.myRatingTV){
-            myrate = ratingBar.getRating();
-
-        }
-
-        if (v.getId() == R.id.saveBtn) {    /////save button on pressed
-            ContentValues values = new ContentValues();
-            values.put(DbConstants.MOVIE_SUBJECT, subjet.getText().toString());
-            values.put(DbConstants.MOVIE_BODY, body.getText().toString());
-            values.put(DbConstants.MOVIE_URL_IMAGE, url.getText().toString());
-            values.put(DbConstants.MOVIE_IMG_STRING,imageString);
-            values.put(DbConstants.MOVIE_MY_RATING,myrate.toString());
-
-            if (EDIT_MODE) {
-                database.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{idSql.toString()});
-                Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
-                EDIT_MODE = false;
-            } else {
-                values.put(DbConstants.MOVIE_YEAR, year);
-                values.put(DbConstants.MOVIE_IMDB_RATING, imdbRating);
-                database.getWritableDatabase().insert(DbConstants.TABLE_NAME, null, values);
-                Toast.makeText(this, "Added", Toast.LENGTH_SHORT).show();
-
-            }
-            finish();
-        } else if (v.getId() == R.id.showBtn) {
-            downloadPicture thread2 = new downloadPicture();
-            thread2.execute(url.getText().toString());
-        } else if (v.getId() == R.id.cancelBtn) {
-            finish();
+        if (DbConstants.EDIT_MODE){
+            Intent getInfoFromMainActivity = getIntent();
+            save.setText("Update");
+            movieId = getInfoFromMainActivity.getIntExtra(DbConstants.MOVIE_ID,-1);
+            movieTitle.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT));
+            url.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_URL_IMAGE));
+            plot.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_BODY));
+            movieInformationTitle.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT));
+            year.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_YEAR));
+            rated.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_RATED));
+            released.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_RELEASED));
+            runtime.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_RUNTIME));
+            genre.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_GENRE));
+            director.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_DIRECTOR));
+            myRatingTV.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING));
+            myRating = getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING);
 
         }
-    }
 
-    /////////////////////////////////////movie details JSON download////////////////////////////////
-    public class downloadBodyThread extends AsyncTask<String, Bitmap, String> {
 
+
+
+
+
+
+
+
+
+
+
+    save.setOnClickListener(new View.OnClickListener() {
         @Override
-        protected void onPreExecute() {
-            progress = ProgressDialog.show(EditActivity.this, "Searching..",
-                    "Please Wait", true, false);
-            super.onPreExecute();
-        }
+        public void onClick(View v) {
+            ContentValues values = new ContentValues();
+            values.put(DbConstants.MOVIE_SUBJECT,movieTitle.getText().toString());
+            values.put(DbConstants.MOVIE_URL_IMAGE,url.getText().toString());
+            values.put(DbConstants.MOVIE_BODY,plot.getText().toString());
+            values.put(DbConstants.MOVIE_YEAR,year.getText().toString());
+            values.put(DbConstants.MOVIE_RATED,rated.getText().toString());
+            values.put(DbConstants.MOVIE_RELEASED,released.getText().toString());
+            values.put(DbConstants.MOVIE_RUNTIME,runtime.getText().toString());
+            values.put(DbConstants.MOVIE_GENRE,genre.getText().toString());
+            values.put(DbConstants.MOVIE_DIRECTOR,director.getText().toString());
+            values.put(DbConstants.MOVIE_MANUAL,1 );
+            values.put(DbConstants.MOVIE_MY_RATING,myRatingTV.getText().toString());
 
-        protected String doInBackground(String... params) {
+            if(DbConstants.EDIT_MODE){
 
-            StringBuilder response = null;
 
-            try {
-                URL website = new URL(params[0]);
-                URLConnection connection = website.openConnection();
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(
-                                connection.getInputStream()));
-                response = new StringBuilder();
-                String inputLine;
-                while ((inputLine = in.readLine()) != null)
-                    response.append(inputLine);
-                in.close();
-            } catch (Exception ee) {
-                ee.printStackTrace();
+                sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{movieId.toString()});
+                DbConstants.EDIT_MODE=false;
             }
-            return response.toString();
+            else {
+                sqlDatabase.getWritableDatabase().insert(DbConstants.TABLE_NAME, null, values);
+                sqlDatabase.close();
+            }
+            finish();
         }
+    });
 
-        protected void onPostExecute(String JsonScriptString) {
-            if (JsonScriptString != null) {
-                try {
-                    JSONObject mainObject = new JSONObject(JsonScriptString);
-                    String plot = mainObject.getString("Plot");
-                     year = mainObject.getString("Year");
-                     imdbRating = mainObject.getString("imdbRating");
-                    body.setText(plot);
-                    progress.dismiss();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbConstants.EDIT_MODE=false;
+                finish();
+            }
+        });
+
+
+        myRatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rankDialog = new Dialog(EditActivity.this, R.style.FullHeightDialog);
+                rankDialog.setContentView(R.layout.rank_dialog);
+                rankDialog.setCancelable(true);
+                ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
+
+
+                //  String rateString = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING));
+                //   ratingBar.setRating(Float.parseFloat(rateString));
+
+
+                TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+                text.setText(movieTitle.getText().toString());
+                //if user not rated movie
+                if(myRatingTV.getText().toString().equals("Set Rating")){
+                    ratingBar.setRating(0);
                 }
-            } else {
-                body.setText("N/A");
-                progress.dismiss();
+                else{
+                    Float rate = Float.parseFloat(myRatingTV.getText().toString());
+                    ratingBar.setRating(rate);
+                }
+
+                Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String rate = String.valueOf(ratingBar.getRating());
+
+                        if(myRating!=null && !myRating.equals(rate)) {
+                            ContentValues values = new ContentValues();
+                            values.put(DbConstants.MOVIE_MY_RATING,String.valueOf(ratingBar.getRating()));
+                            sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{String.valueOf(movieId)});
+                            Toast.makeText(EditActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        myRatingTV.setText(rate);
+                        rankDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                rankDialog.show();
             }
-        }
-
-    }
-    //////////////////////////////////image download task////////////////////////////////////
-    public class downloadPicture extends AsyncTask<String, Void, Bitmap> {
-
-        protected Bitmap doInBackground(String... params) {
-
-            Bitmap image = null;
-            String urlImage = new String(params[0]);
-            try {
-                InputStream in = new java.net.URL((urlImage)).openStream();
-                image = BitmapFactory.decodeStream(in);
-            } catch (Exception ee) {
-                ee.printStackTrace();
+        });
             }
-            return image;
-        }
 
-        protected void onPostExecute(Bitmap ImageResult) {
 
-            logo = (ImageView) findViewById(R.id.imageView);
-            logo.setImageBitmap(ImageResult);
-            findViewById(R.id.activity_edit).setFocusable(true);
-            findViewById(R.id.activity_edit).getDrawingCache(true);
-            imageString = BitMapToString(ImageResult);
-
-        }
-
-    }
-///////////////////////////////BitMap To String Converting//////////////////
-    public String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
+    @Override
+    public void onBackPressed() {
+        DbConstants.EDIT_MODE=false;
+        super.onBackPressed();
     }
 }
-
-
-

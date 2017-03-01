@@ -55,6 +55,8 @@ public class MovieListAdapter extends CursorAdapter {
             myRatting.setText(myRate);
         }
         if (cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1){
+
+
             imdbTV.setText("N/A");
         }
         else{

@@ -3,7 +3,6 @@ package com.example.dima.my_movie_watch_list;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import javax.crypto.spec.DHGenParameterSpec;
 
 import static com.example.dima.my_movie_watch_list.DbConstants.COMES_FROM_MAIN_ACTIVITY;
 import static com.example.dima.my_movie_watch_list.DbConstants.EDIT_MODE;
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.menuExit) {
 
-            Intent movetowatch = new Intent(this,EditActivity1.class);
+            Intent movetowatch = new Intent(this,EditActivity.class);
             startActivity(movetowatch);
             finish();
         }
@@ -97,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Manual",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent goToEdit = new Intent(MainActivity.this, EditActivity1.class);
+                        Intent goToEdit = new Intent(MainActivity.this, EditActivity.class);
                         startActivity(goToEdit);
                         dialog.dismiss();
                     }
@@ -105,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Search Online",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent searchDataonWeb = new Intent(MainActivity.this, searchDataOnWeb.class);
+                        Intent searchDataonWeb = new Intent(MainActivity.this, SearchActivity.class);
                         startActivity(searchDataonWeb);
                         dialog.dismiss();
                     }
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        findViewById(R.id.addEditAdd).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.floatingBtnAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // build dialig menu in pluss buttn pressed
                 buildDialog();
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                cursor.moveToPosition(position); // listview position
 
                 if((cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1)){
-                    Intent editModeEditActivity = new Intent(MainActivity.this,EditActivity1.class);
+                    Intent editModeEditActivity = new Intent(MainActivity.this,EditActivity.class);
                     editModeEditActivity.putExtra(DbConstants.MOVIE_SUBJECT,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_SUBJECT)));
                     editModeEditActivity.putExtra(DbConstants.MOVIE_BODY,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_BODY)));
                     editModeEditActivity.putExtra(DbConstants.MOVIE_URL_IMAGE,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_URL_IMAGE)));
