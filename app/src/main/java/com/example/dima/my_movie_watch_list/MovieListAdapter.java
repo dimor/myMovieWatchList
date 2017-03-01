@@ -43,8 +43,17 @@ public class MovieListAdapter extends CursorAdapter {
         TextView imdbTV = (TextView)view.findViewById(R.id.imdbTV);
         TextView myRatting = (TextView)view.findViewById(R.id.myRatingTV);
 
+
+
         titleTV.setText(title);
         yearTV.setText(year);
+
+        if(myRate==null){
+            myRatting.setText("N/A");
+        }
+        else {
+            myRatting.setText(myRate);
+        }
         if (cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1){
             imdbTV.setText("N/A");
         }
@@ -58,7 +67,6 @@ public class MovieListAdapter extends CursorAdapter {
         else {
             logo.setImageBitmap(StringToBitMap(imageString));
         }
-        myRatting.setText("N/A");
 
 
 

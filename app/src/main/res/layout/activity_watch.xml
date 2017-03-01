@@ -33,83 +33,90 @@
 
                 <TextView
                     android:text="Movie Name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/movieNameTV"
                     android:textSize="24sp"
                     android:textStyle="normal|bold"
                     style="@android:style/Widget.DeviceDefault.TextView"
-                    android:fontFamily="sans-serif-condensed" />
+                    android:fontFamily="sans-serif-condensed"
+                    android:textAlignment="center"
+                    android:layout_gravity="center" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     app:srcCompat="@drawable/noimage"
                     android:id="@+id/moviePosterIV"
                     android:padding="5dp"
                     android:elevation="0dp"
                     android:background="@drawable/borders"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:layout_margin="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter" />
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center">
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/borders">
-
-
-                <ImageView
-                    app:srcCompat="@drawable/imdb"
-                    android:id="@+id/imageView3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp" />
-
-                <TextView
-                    android:text="N/A"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/movieImdbRatingTV"
-                    android:textAlignment="center"
-                    android:gravity="center" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:background="@drawable/borders">
-
-
-                <ImageButton
-                    android:layout_width="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/myrating"
-                    android:id="@+id/myRatingIB" />
+                    android:layout_margin="3dp"
+                    android:background="@drawable/borders">
 
-                <TextView
-                    android:text="Set Rating"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/myMovieRatingTV"
-                    android:gravity="center"
-                    android:layout_margin="5dp" />
+
+                    <ImageView
+                        app:srcCompat="@drawable/imdb"
+                        android:id="@+id/imageView3"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp" />
+
+                    <TextView
+                        android:text="N/A"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/movieImdbRatingTV"
+                        android:textAlignment="center"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/borders">
+
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/myrating"
+                        android:id="@+id/myRatingIB"
+                        android:layout_gravity="center"
+                        style="@android:style/Widget.DeviceDefault.Light.ImageButton"
+                        android:layout_margin="5dp" />
+
+                    <TextView
+                        android:text="Set Rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/myMovieRatingTV"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
-
-
-
 
 
             <LinearLayout

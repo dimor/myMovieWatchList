@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import javax.crypto.spec.DHGenParameterSpec;
+
 import static com.example.dima.my_movie_watch_list.DbConstants.COMES_FROM_MAIN_ACTIVITY;
 import static com.example.dima.my_movie_watch_list.DbConstants.EDIT_MODE;
 
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     editModeEditActivity.putExtra(DbConstants.MOVIE_GENRE,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_GENRE)));
                     editModeEditActivity.putExtra(DbConstants.MOVIE_DIRECTOR,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_DIRECTOR)));
                     editModeEditActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
+                   editModeEditActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
                     DbConstants.EDIT_MODE=true;
                     startActivity(editModeEditActivity);
 
@@ -167,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent moveToWatchActivity = new Intent(MainActivity.this, WatchActivity.class);
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_IMDB_ID, imdb_id);
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_URL_IMAGE, imageUrl);
+                    moveToWatchActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
+                    moveToWatchActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
                     COMES_FROM_MAIN_ACTIVITY = true;
                     startActivity(moveToWatchActivity);
                 }
