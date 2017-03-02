@@ -42,11 +42,21 @@ public class MovieListAdapter extends CursorAdapter {
         TextView yearTV = (TextView)view.findViewById(R.id.yearTV);
         TextView imdbTV = (TextView)view.findViewById(R.id.imdbTV);
         TextView myRatting = (TextView)view.findViewById(R.id.myRatingTV);
-
+        String isMovieWatched = cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED));
+        ImageView watched = (ImageView)view.findViewById(R.id.isMovieWatchedIV) ;
 
 
         titleTV.setText(title);
         yearTV.setText(year);
+
+        if(!isMovieWatched.equals("Watched")){
+            watched.setVisibility(View.INVISIBLE);
+        }
+        else{
+            watched.setVisibility(View.VISIBLE);
+        }
+
+
 
         if(myRate==null){
             myRatting.setText("N/A");

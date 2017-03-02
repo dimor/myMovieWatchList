@@ -22,6 +22,7 @@ public class DbConstants {
     public static final String MOVIE_DIRECTOR ="director";
     public static final String MOVIE_IMDB_ID ="imdbid";
     public static final String MOVIE_MANUAL ="manual";
+    public static String IS_MOVIE_WATCHED  ="isMovieWatched";
     public static boolean EDIT_MODE  =false;
     public static boolean EDIT_MODE_FROM_SEARCH  =false;
     public static boolean COMES_FROM_MAIN_ACTIVITY  =false;

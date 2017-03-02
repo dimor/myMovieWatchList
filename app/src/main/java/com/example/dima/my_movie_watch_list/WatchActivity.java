@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,9 @@ public class WatchActivity extends AppCompatActivity {
     Dialog rankDialog;
     RatingBar ratingBar;
     String myRating;
+    ImageButton watchedIB;
+    TextView watchedTV;
+    String isMovieWatchedString;
 /////////////////////////////////////////////////////////////////////
 
 
@@ -88,6 +92,9 @@ public class WatchActivity extends AppCompatActivity {
         save = (Button) findViewById(R.id.movieSaveBtn);
         logo = (ImageView) findViewById(R.id.moviePosterIV);
         myRatingImgBtn = (ImageButton) findViewById(R.id.myRatingIB);
+        watchedIB = (ImageButton)findViewById(R.id.isMovieWatchedIB);
+        watchedTV =(TextView)findViewById(R.id.isMovieWatched);
+
         ///////////////////////////////////////////////////////////
 
 
@@ -98,15 +105,28 @@ public class WatchActivity extends AppCompatActivity {
             imdbid = getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_IMDB_ID);
             String imageUrl = getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_URL_IMAGE);
             myRating = getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING);
+            isMovieWatchedString = getInformationFromMainActivity.getStringExtra((DbConstants.IS_MOVIE_WATCHED));
 
             new downloadMovieDetalis().execute("http://www.omdbapi.com/?i=" + imdbid);
             new downloadPicture().execute(imageUrl);
-
+            //////////////////////////////////////////////////////////////////////////////////////////
             if(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING)==null){
                 myRatingTV.setText("Set Rating");
             }else{
                myRatingTV.setText(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING));
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            watchedTV.setText(isMovieWatchedString);
+            if( watchedTV.getText().toString().equals("Unwatched")) {
+                watchedIB.setBackgroundColor(Color.DKGRAY);
+            }else{
+                watchedIB.setBackgroundColor(Color.GREEN);
+            }
+
+
+
+
 
 
             DbConstants.COMES_FROM_MAIN_ACTIVITY = false;
@@ -122,6 +142,44 @@ public class WatchActivity extends AppCompatActivity {
             new downloadPicture().execute(posterUrl);
             DbConstants.COMES_FROM_SEARCH_ACTIVITY = false;
         }
+
+//////////////////////////////////////////WATCHED///////////////////////////////////
+
+
+        watchedIB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( watchedTV.getText().toString().equals("Unwatched")) {
+                    watchedTV.setText("Watched");
+                    watchedIB.setBackgroundColor(Color.GREEN);
+                    if(idsql!=-1){
+                        ContentValues values = new ContentValues();
+                        values.put(DbConstants.IS_MOVIE_WATCHED,watchedTV.getText().toString());
+                        sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{String.valueOf(idsql)});
+                        Toast.makeText(WatchActivity.this, movieTitle.getText().toString() +" set to Watched", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    watchedTV.setText("Unwatched");
+                    watchedIB.setBackgroundColor(Color.DKGRAY);
+                    if(idsql!=-1){
+                        ContentValues values = new ContentValues();
+                        values.put(DbConstants.IS_MOVIE_WATCHED,watchedTV.getText().toString());
+                        sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{String.valueOf(idsql)});
+                        Toast.makeText(WatchActivity.this, movieTitle.getText().toString() +" set to UnWatched", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
 
 
         //////////////////MY RATING///////////////////////////////////////
@@ -187,6 +245,7 @@ public class WatchActivity extends AppCompatActivity {
                 values.put(DbConstants.MOVIE_IMDB_ID, imdbid);
                 values.put(DbConstants.MOVIE_URL_IMAGE, posterUrl);
                 values.put(DbConstants.MOVIE_MY_RATING,myRatingTV.getText().toString());
+                values.put(DbConstants.IS_MOVIE_WATCHED,watchedTV.getText().toString());
                 sqlDatabase.getWritableDatabase().insert(DbConstants.TABLE_NAME, null, values);
                 startActivity(backtomain);
                 finish();

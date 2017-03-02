@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (item.getItemId() == R.id.menuExit) {
-
-            Intent movetowatch = new Intent(this,EditActivity.class);
-            startActivity(movetowatch);
             finish();
         }
         return true;
@@ -158,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     editModeEditActivity.putExtra(DbConstants.MOVIE_DIRECTOR,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_DIRECTOR)));
                     editModeEditActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
                    editModeEditActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
+                    editModeEditActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
                     DbConstants.EDIT_MODE=true;
                     startActivity(editModeEditActivity);
 
@@ -169,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_URL_IMAGE, imageUrl);
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
+                    moveToWatchActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
                     COMES_FROM_MAIN_ACTIVITY = true;
                     startActivity(moveToWatchActivity);
                 }

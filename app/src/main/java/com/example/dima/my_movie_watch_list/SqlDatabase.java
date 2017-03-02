@@ -33,7 +33,8 @@ public class SqlDatabase extends SQLiteOpenHelper {
                 + DbConstants.MOVIE_DIRECTOR + " TEXT,"
                 + DbConstants.MOVIE_IMDB_ID + " TEXT,"
                 + DbConstants.MOVIE_IMG_STRING +" TEXT, "
-                + DbConstants.MOVIE_MANUAL + " INTEGER "
+                + DbConstants.MOVIE_MANUAL + " INTEGER, "
+                + DbConstants.IS_MOVIE_WATCHED + " TEXT "
                 + ")";
         Toast.makeText(context, "DB CRATED", Toast.LENGTH_SHORT).show();
         db.execSQL(sqlQueryCreateTable);

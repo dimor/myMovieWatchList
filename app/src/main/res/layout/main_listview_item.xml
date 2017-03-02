@@ -25,15 +25,28 @@
         android:layout_weight="2"
         android:weightSum="4">
 
-        <TextView
-            android:text="Title"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/titleTv"
-            android:textSize="17sp"
-            android:layout_weight="1"
-            tools:textStyle="normal"
-            android:fontFamily="sans-serif-condensed" />
+            android:layout_weight="1">
+
+            <TextView
+                android:text="Title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/titleTv"
+                android:textSize="17sp"
+                tools:textStyle="normal"
+                android:fontFamily="sans-serif-condensed" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_view"
+                android:id="@+id/isMovieWatchedIV" />
+
+        </LinearLayout>
 
         <TextView
             android:text="Year"
@@ -84,16 +97,24 @@
 
             <TextView
                 android:text="TextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/myRatingTV"
-                android:layout_weight="1"
                 android:textSize="10sp"
                 android:paddingTop="4dp" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+
+            </LinearLayout>
 
 
         </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>
