@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,12 +93,13 @@ public class SearchActivity extends AppCompatActivity {
             try {
                 URL website = new URL(params[0]);
                 URLConnection connection = website.openConnection();
-                connection.setConnectTimeout(3000);
-                connection.setReadTimeout(3000);
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(
                                 connection.getInputStream()));
                 response = new StringBuilder();
+                if(response==null){
+                    Toast.makeText(SearchActivity.this, "No Movie Found", Toast.LENGTH_SHORT).show();
+                }
                 String inputLine;
                 while ((inputLine = in.readLine()) != null)
                     response.append(inputLine);

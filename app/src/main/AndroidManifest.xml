@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".EditActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SearchActivity" />
         <activity android:name=".WatchActivity"
             android:theme="@style/AppTheme.NoActionBar" />

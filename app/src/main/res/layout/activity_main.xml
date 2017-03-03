@@ -11,34 +11,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.dima.my_movie_watch_list.MainActivity">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:clickable="true"
-            app:fabSize="mini"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            android:id="@+id/floatingBtnAdd"
-            app:elevation="7dp"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
-
-        <LinearLayout
-            android:orientation="vertical"
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/listMovieTV" />
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/listMovieTV" />
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:clickable="true"
+        app:srcCompat="@color/colorAccent"
+        android:id="@+id/floatingBtnAdd"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        app:fabSize="normal"
+        tools:ignore="RtlHardcoded" />
 
 </FrameLayout>

@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     editModeEditActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
                    editModeEditActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
                     editModeEditActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
+                    editModeEditActivity.putExtra(DbConstants.MOVIE_IMG_STRING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_IMG_STRING)));
                     DbConstants.EDIT_MODE=true;
                     startActivity(editModeEditActivity);
 

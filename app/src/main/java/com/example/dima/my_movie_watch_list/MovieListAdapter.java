@@ -64,6 +64,9 @@ public class MovieListAdapter extends CursorAdapter {
         else {
             myRatting.setText(myRate);
         }
+
+
+        //////////////////////////////////////////////////////////////////////////////////
         if (cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1){
 
 

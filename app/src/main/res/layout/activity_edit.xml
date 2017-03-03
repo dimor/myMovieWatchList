@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_watch"
+    android:id="@+id/activity_edit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -41,12 +41,12 @@
                     android:textAllCaps="false" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     app:srcCompat="@drawable/noimage"
                     android:id="@+id/moviePosterIV"
                     android:padding="5dp"
                     android:background="@drawable/borders"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:layout_margin="5dp"
                     android:layout_gravity="center" />
 
@@ -144,16 +144,17 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:srcCompat="@android:drawable/ic_menu_view"
-                        android:id="@+id/isWatchedIB"
+                        android:id="@+id/isEditMovieWatchedIB"
                         android:layout_gravity="center"
-                        style="@android:style/Widget.DeviceDefault.Light.ImageButton"
-                        android:layout_margin="5dp" />
+                        style="@android:style/Widget.DeviceDefault.ImageButton"
+                        android:layout_margin="5dp"
+                        android:background="@android:color/darker_gray" />
 
                     <TextView
-                        android:text="Watched?"
+                        android:text="Unwatched"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/isMovieWatched"
+                        android:id="@+id/isEditMovieWatchedTV"
                         android:gravity="center"
                         android:textAlignment="center"
                         android:layout_margin="5dp"
@@ -161,7 +162,35 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/borders">
 
+
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:srcCompat="@android:drawable/ic_menu_camera"
+                        android:id="@+id/cameraIB"
+                        android:layout_gravity="center"
+                        style="@android:style/Widget.DeviceDefault.ImageButton"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorAccent" />
+
+                    <TextView
+                        android:text="Camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cameraTV"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:layout_margin="5dp"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
 
 
             </LinearLayout>

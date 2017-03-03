@@ -130,7 +130,7 @@
                         app:srcCompat="@android:drawable/ic_menu_view"
                         android:id="@+id/isMovieWatchedIB"
                         android:layout_gravity="center"
-                        style="@android:style/Widget.DeviceDefault.ImageButton"
+                        style="@style/Widget.AppCompat.ImageButton"
                         android:layout_margin="5dp"
                         android:background="@android:color/darker_gray" />
 
