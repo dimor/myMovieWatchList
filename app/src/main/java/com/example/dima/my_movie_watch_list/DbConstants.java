@@ -24,8 +24,6 @@ public class DbConstants {
     public static final String MOVIE_MANUAL ="manual";
     public static String IS_MOVIE_WATCHED  ="isMovieWatched";
     public static boolean EDIT_MODE  =false;
-    public static boolean EDIT_MODE_FROM_SEARCH  =false;
     public static boolean COMES_FROM_MAIN_ACTIVITY  =false;
     public static boolean COMES_FROM_SEARCH_ACTIVITY  =false;
-    static  final int CAMERA_REQUEST =123;
 }

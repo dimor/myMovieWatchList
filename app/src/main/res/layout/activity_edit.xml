@@ -9,8 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.dima.my_movie_watch_list.WatchActivity"
-    android:background="#f5f5f5">
+    tools:context="com.example.dima.my_movie_watch_list.WatchActivity">
 
 
     <ScrollView
@@ -23,7 +22,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:soundEffectsEnabled="false">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -32,13 +32,16 @@
                 android:layout_margin="3dp">
 
                 <EditText
-                    android:layout_width="match_parent"
+                    android:hint="Movie Title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/movieNameET"
-                    style="@android:style/Widget.DeviceDefault.TextView"
-                    android:hint="Movie Name"
+                    android:id="@+id/MovieNameET"
                     android:textSize="24sp"
-                    android:textAllCaps="false" />
+                    android:textStyle="normal|bold"
+                    style="@style/Widget.AppCompat.EditText"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textAlignment="center"
+                    android:layout_gravity="center" />
 
                 <ImageView
                     android:layout_width="300dp"
@@ -84,30 +87,6 @@
                 android:layout_weight="1"
                 android:layout_gravity="center">
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:background="@drawable/borders">
-
-
-                    <ImageView
-                        app:srcCompat="@drawable/imdb"
-                        android:id="@+id/imageView3"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="5dp" />
-
-                    <TextView
-                        android:text="N/A"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/movieImdbRatingTV"
-                        android:textAlignment="center"
-                        android:gravity="center" />
-
-                </LinearLayout>
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
@@ -178,7 +157,7 @@
                         android:layout_gravity="center"
                         style="@android:style/Widget.DeviceDefault.ImageButton"
                         android:layout_margin="5dp"
-                        android:background="@color/colorAccent" />
+                       />
 
                     <TextView
                         android:text="Camera"
@@ -195,6 +174,8 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -209,15 +190,14 @@
                     android:textSize="20sp"
                     android:fontFamily="sans-serif-condensed"
                     android:textStyle="bold"
-                    android:layout_margin="3dp" />
+                    android:padding="5dp" />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:id="@+id/moviePlotET"
                     android:textSize="14sp"
-                    android:hint="Plot.."
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp" />
+                    android:padding="5dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -234,7 +214,7 @@
                     android:textSize="20sp"
                     android:fontFamily="sans-serif-condensed"
                     android:textStyle="bold"
-                    android:layout_margin="3dp" />
+                    android:padding="5dp" />
 
                 <LinearLayout
                     android:orientation="horizontal"
@@ -246,18 +226,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView5"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp" />
+                        android:padding="5dp" />
 
                     <EditText
-                        android:hint="movie title"
-                        android:layout_width="wrap_content"
+                        android:hint="title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:id="@+id/movieInformationTitleET" />
+                        android:id="@+id/movieInformationTitleET"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -269,18 +248,17 @@
                         android:text="Year"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp"
+                        android:padding="5dp"
                         android:textStyle="bold" />
 
                     <EditText
                         android:hint="year"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/movieYearET"
-                        android:textSize="14sp" />
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/movieYearET" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,42 +270,40 @@
                         android:text="Rated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp" />
+                        android:padding="5dp" />
 
                     <EditText
                         android:hint="rate"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
                         android:id="@+id/movieRatedET" />
                 </LinearLayout>
 
                 <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="Released"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp" />
+                    <TextView
+                        android:text="Released"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:padding="5dp" />
 
-                <EditText
-                    android:hint="released"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:id="@+id/movieReleasedET" />
-            </LinearLayout>
+                    <EditText
+                        android:hint="Released"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/movieReleasedET" />
+                </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -337,17 +313,16 @@
                         android:text="Runtime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp" />
+                        android:padding="5dp" />
 
                     <EditText
                         android:hint="runtime"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
                         android:id="@+id/movieRuntimeET" />
                 </LinearLayout>
                 <LinearLayout
@@ -359,18 +334,17 @@
                         android:text="Genre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp" />
+                        android:padding="5dp" />
 
                     <EditText
                         android:hint="genre"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
-                        android:id="@+id/movieGenreET" />
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:id="@+id/MovieGenreET" />
                 </LinearLayout>
                 <LinearLayout
                     android:orientation="horizontal"
@@ -381,18 +355,16 @@
                         android:text="Director"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginBottom="3dp" />
+                        android:padding="5dp" />
 
                     <EditText
-                        android:hint="director"
-                        android:layout_width="wrap_content"
+                        android:hint="Director"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
                         android:id="@+id/movieDirectorET" />
                 </LinearLayout>
 
@@ -420,7 +392,8 @@
                     android:id="@+id/movieEditCancelBtn"
                     tools:ignore="ButtonStyle"
                     android:layout_weight="1"
-                    android:layout_margin="3dp" />
+                    android:background="@drawable/button"
+                    android:layout_margin="5dp" />
 
                 <Button
                     android:text="add"
@@ -429,8 +402,249 @@
                     android:id="@+id/movieEditSaveBtn"
                     tools:ignore="ButtonStyle"
                     android:layout_weight="1"
-                    android:layout_margin="3dp" />
+                    android:background="@drawable/button"
+                    android:layout_margin="5dp" />
             </LinearLayout>
+
+            <!--
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/borders">
+
+                            <TextView
+                                android:text="Plot"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textStyle="bold"
+                                android:layout_margin="3dp" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:id="@+id/moviePlotET"
+                                android:textSize="14sp"
+                                android:hint="Plot.."
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/borders">
+
+                            <TextView
+                                android:text="Information"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"
+                                android:fontFamily="sans-serif-condensed"
+                                android:textStyle="bold"
+                                android:layout_margin="3dp" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView5"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp" />
+
+                                <EditText
+                                    android:hint="movie title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14sp"
+                                    android:id="@+id/movieInformationTitleET" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Year"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp"
+                                    android:textStyle="bold" />
+
+                                <EditText
+                                    android:hint="year"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:id="@+id/movieYearET"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Rated"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp" />
+
+                                <EditText
+                                    android:hint="rate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14sp"
+                                    android:id="@+id/movieRatedET" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:text="Released"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textStyle="bold"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginStart="3dp" />
+
+                            <EditText
+                                android:hint="released"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14sp"
+                                android:id="@+id/movieReleasedET" />
+                        </LinearLayout>
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Runtime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp" />
+
+                                <EditText
+                                    android:hint="runtime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14sp"
+                                    android:id="@+id/movieRuntimeET" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Genre"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp" />
+
+                                <EditText
+                                    android:hint="genre"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14sp"
+                                    android:id="@+id/movieGenreET" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Director"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textStyle="bold"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginStart="3dp"
+                                    android:layout_marginBottom="3dp" />
+
+                                <EditText
+                                    android:hint="director"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14sp"
+                                    android:id="@+id/movieDirectorET" />
+                            </LinearLayout>
+
+
+
+
+
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/borders"
+                            android:weightSum="2">
+
+                            <Button
+                                android:text="@string/cancel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/movieEditCancelBtn"
+                                tools:ignore="ButtonStyle"
+                                android:layout_weight="1"
+                                android:layout_margin="3dp" />
+
+                            <Button
+                                android:text="add"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/movieEditSaveBtn"
+                                tools:ignore="ButtonStyle"
+                                android:layout_weight="1"
+                                android:layout_margin="3dp" />
+                        </LinearLayout>
+            -->
 
 
         </LinearLayout>

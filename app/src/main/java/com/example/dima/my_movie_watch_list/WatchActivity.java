@@ -3,14 +3,12 @@ package com.example.dima.my_movie_watch_list;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -32,8 +30,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import static android.R.attr.name;
-
 public class WatchActivity extends AppCompatActivity {
     SqlDatabase sqlDatabase;
     ProgressDialog progressDataMovie;
@@ -43,6 +39,7 @@ public class WatchActivity extends AppCompatActivity {
     String posterUrl;
     Cursor cursor;
     int idsql;
+
     ///////////////////////Views Initialization/////////////////////////
     TextView movieTitle;
     ImageView logo;
@@ -65,6 +62,7 @@ public class WatchActivity extends AppCompatActivity {
     ImageButton watchedIB;
     TextView watchedTV;
     String isMovieWatchedString;
+
 /////////////////////////////////////////////////////////////////////
 
 
@@ -76,7 +74,6 @@ public class WatchActivity extends AppCompatActivity {
         sqlDatabase = new SqlDatabase(this);
         cursor=sqlDatabase.getReadableDatabase().query(DbConstants.TABLE_NAME,null,null,null,null,null,null);
         ///////////////Views Declaration/////////////////////
-
         movieTitle = (TextView) findViewById(R.id.movieNameTV);
         imdbRating = (TextView) findViewById(R.id.movieImdbRatingTV);
         myRatingTV = (TextView)findViewById(R.id.myMovieRatingTV);
@@ -95,11 +92,8 @@ public class WatchActivity extends AppCompatActivity {
         watchedIB = (ImageButton)findViewById(R.id.isMovieWatchedIB);
         watchedTV =(TextView)findViewById(R.id.isMovieWatched);
 
-        ///////////////////////////////////////////////////////////
-
-
+//////////////////////////////WHEN YOU COME FROM MAIN ACTIVITY (NOT FIRST TIME , MOVIE ALREADY IN YOUR DATABASE)//////////////////////////////////
         if (DbConstants.COMES_FROM_MAIN_ACTIVITY) {
-         //   ratingBar.setRating(cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
             Intent getInformationFromMainActivity = getIntent();
             idsql = getInformationFromMainActivity.getIntExtra(DbConstants.MOVIE_ID,-1);
             imdbid = getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_IMDB_ID);
@@ -107,38 +101,35 @@ public class WatchActivity extends AppCompatActivity {
             myRating = getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING);
             isMovieWatchedString = getInformationFromMainActivity.getStringExtra((DbConstants.IS_MOVIE_WATCHED));
 
-            new downloadMovieDetalis().execute("http://www.omdbapi.com/?i=" + imdbid);
+            new downloadMovieDetails().execute("http://www.omdbapi.com/?i=" + imdbid);
             new downloadPicture().execute(imageUrl);
-            //////////////////////////////////////////////////////////////////////////////////////////
-            if(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING)==null){
-                myRatingTV.setText("Set Rating");
-            }else{
-               myRatingTV.setText(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING));
-            }
-            ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+              if(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING)==null){
+                   myRatingTV.setText("Set Rating");
+               }else{
+                  myRatingTV.setText(getInformationFromMainActivity.getStringExtra(DbConstants.MOVIE_MY_RATING));
+                }
+
 
             watchedTV.setText(isMovieWatchedString);
-            if( watchedTV.getText().toString().equals("Unwatched")) {
-                watchedIB.setBackgroundColor(Color.DKGRAY);
-            }else{
-                watchedIB.setBackgroundColor(Color.GREEN);
-            }
+                if( watchedTV.getText().toString().equals("Unwatched")) {
+                    watchedIB.setBackgroundColor(Color.DKGRAY);
+                }
+                else
+                {
+                    watchedIB.setBackgroundColor(Color.GREEN);
+                }
 
-
-
-
-
-
-            DbConstants.COMES_FROM_MAIN_ACTIVITY = false;
-            save.setVisibility(View.INVISIBLE);
+                DbConstants.COMES_FROM_MAIN_ACTIVITY = false;
+                save.setVisibility(View.INVISIBLE);
         }
-
+/////////////////////////////WHEN YOU COMES FROM SEARCH ACTIVITY ///(FIRST TIME DATABASE =null)////////////////////////////////////////////////////////////////////////////////
         if (DbConstants.COMES_FROM_SEARCH_ACTIVITY) {
             Intent getInformationFromSearchActivity = getIntent();
             myRatingTV.setText("Set Rating");
             imdbid = getInformationFromSearchActivity.getStringExtra(DbConstants.MOVIE_IMDB_ID);
             posterUrl = getInformationFromSearchActivity.getStringExtra(DbConstants.MOVIE_URL_IMAGE);
-            new downloadMovieDetalis().execute("http://www.omdbapi.com/?i=" + imdbid);
+            new downloadMovieDetails().execute("http://www.omdbapi.com/?i=" + imdbid);
             new downloadPicture().execute(posterUrl);
             DbConstants.COMES_FROM_SEARCH_ACTIVITY = false;
         }
@@ -173,15 +164,6 @@ public class WatchActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
         //////////////////MY RATING///////////////////////////////////////
 
         myRatingImgBtn.setOnClickListener(new View.OnClickListener() {
@@ -190,11 +172,6 @@ public class WatchActivity extends AppCompatActivity {
                 rankDialog.setContentView(R.layout.rank_dialog);
                 rankDialog.setCancelable(true);
                 ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
-
-
-                  //  String rateString = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING));
-                 //   ratingBar.setRating(Float.parseFloat(rateString));
-
 
                 TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
                 text.setText(movieTitle.getText().toString());
@@ -224,13 +201,12 @@ public class WatchActivity extends AppCompatActivity {
                         rankDialog.dismiss();
                     }
                 });
-                //now that the dialog is set up, it's time to show it
+         
                 rankDialog.show();
             }
         });
 
-
-        //////////////SAVE BUTTON //////////////
+////////////////////////////////////////////////////////////SAVE BUTTON /////////////////////////////////////////////
 
         save.setOnClickListener(new View.OnClickListener() {
 
@@ -263,7 +239,7 @@ public class WatchActivity extends AppCompatActivity {
     }
 
     /////////////////////////////////////movie details JSON download////////////////////////////////
-    public class downloadMovieDetalis extends AsyncTask<String, Bitmap, String> {
+    public class downloadMovieDetails extends AsyncTask<String, Bitmap, String> {
 
         @Override
         protected void onPreExecute() {
@@ -298,6 +274,8 @@ public class WatchActivity extends AppCompatActivity {
                 try {
                     JSONObject mainObject = new JSONObject(JsonScriptString);
 
+
+
                     movieTitle.setText(mainObject.getString("Title"));
                     imdbRating.setText(mainObject.getString("imdbRating"));
                     plot.setText(mainObject.getString("Plot"));
@@ -308,6 +286,7 @@ public class WatchActivity extends AppCompatActivity {
                     runtime.setText(mainObject.getString("Runtime"));
                     genre.setText(mainObject.getString("Genre"));
                     director.setText(mainObject.getString("Director"));
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -345,13 +324,12 @@ public class WatchActivity extends AppCompatActivity {
 
             if (ImageResult != null) {
                 logo.setImageBitmap(ImageResult);
+                findViewById(R.id.activity_watch).setFocusable(true);
+                findViewById(R.id.activity_watch).getDrawingCache(true);
+                imageString = BitMapToString(ImageResult);
             } else {
                 logo.setImageResource(R.drawable.noimage);
             }
-
-            findViewById(R.id.activity_watch).setFocusable(true);
-            findViewById(R.id.activity_watch).getDrawingCache(true);
-            imageString = BitMapToString(ImageResult);
             progressPicture.dismiss();
         }
 

@@ -30,10 +30,18 @@ public class MainActivity extends AppCompatActivity {
     //#######################MENUS########################################################################
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
         super.onCreateContextMenu(menu, v, menuInfo);
         listViewIdSQLFromContextMenu = (int) ((AdapterView.AdapterContextMenuInfo) menuInfo).id;
         listViewPositionFromContextMenu = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
         getMenuInflater().inflate(R.menu.context_menu, menu);
+        cursor.moveToPosition(listViewPositionFromContextMenu);
+        if(!(cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1)){
+            MenuItem mi = (MenuItem) menu.findItem(R.id.context_menu_edit);
+            mi.setTitle("Watch");
+
+        }
+
     }
 
     @Override
@@ -41,17 +49,40 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.context_menu_edit) {
 
             cursor.moveToPosition(listViewPositionFromContextMenu);
-            String subject = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_SUBJECT));
-            String body = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_BODY));
-            String url = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_URL_IMAGE));
-            idFromSQL = cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID));
-            Intent moveDatatoEdit = new Intent(MainActivity.this, EditActivity.class);
-            moveDatatoEdit.putExtra(DbConstants.MOVIE_SUBJECT, subject);
-            moveDatatoEdit.putExtra(DbConstants.MOVIE_BODY, body);
-            moveDatatoEdit.putExtra(DbConstants.MOVIE_URL_IMAGE, url);
-            moveDatatoEdit.putExtra(DbConstants.MOVIE_ID, idFromSQL);
-            EDIT_MODE = true;
-            startActivity(moveDatatoEdit);
+
+            if((cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_MANUAL))==1)){
+                Intent editModeEditActivity = new Intent(MainActivity.this,EditActivity.class);
+                editModeEditActivity.putExtra(DbConstants.MOVIE_SUBJECT,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_SUBJECT)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_BODY,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_BODY)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_URL_IMAGE,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_URL_IMAGE)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_YEAR,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_YEAR)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_RATED,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_RATED)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_RELEASED,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_RELEASED)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_RUNTIME,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_RUNTIME)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_GENRE,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_GENRE)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_DIRECTOR,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_DIRECTOR)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
+                editModeEditActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
+                editModeEditActivity.putExtra(DbConstants.MOVIE_IMG_STRING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_IMG_STRING)));
+                DbConstants.EDIT_MODE=true;
+                startActivity(editModeEditActivity);
+
+            }
+            else{
+                String imdb_id = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_IMDB_ID));
+                String imageUrl = cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_URL_IMAGE));
+                Intent moveToWatchActivity = new Intent(MainActivity.this, WatchActivity.class);
+                moveToWatchActivity.putExtra(DbConstants.MOVIE_IMDB_ID, imdb_id);
+                moveToWatchActivity.putExtra(DbConstants.MOVIE_URL_IMAGE, imageUrl);
+                moveToWatchActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
+                moveToWatchActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
+                moveToWatchActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
+                COMES_FROM_MAIN_ACTIVITY = true;
+                startActivity(moveToWatchActivity);
+            }
+
+
         }
 
 
@@ -88,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         alertDialog.setTitle("Select");
+        alertDialog.setMessage("Note : in search mode you need active internet connection!");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Manual",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

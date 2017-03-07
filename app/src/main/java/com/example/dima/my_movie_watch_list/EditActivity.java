@@ -1,11 +1,10 @@
 package com.example.dima.my_movie_watch_list;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -22,18 +21,16 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class EditActivity extends AppCompatActivity {
     SqlDatabase sqlDatabase;
-    ProgressDialog progressDataMovie;
     ProgressDialog progressPicture;
     String imageString;
-    String imdbid;
-    String posterUrl;
     Integer movieId;
+    String movieTitleFromCursor;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     ///////////////////////Views Initialization/////////////////////////
     EditText movieTitle;
     ImageView logo;
@@ -66,16 +63,16 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         sqlDatabase = new SqlDatabase(this);
-        movieTitle = (EditText) findViewById(R.id.movieNameET);
+        movieTitle = (EditText) findViewById(R.id.MovieNameET);
         url = (EditText) findViewById(R.id.urlET);
-        show = (Button)findViewById(R.id.showBtn);
+        show = (Button) findViewById(R.id.showBtn);
         plot = (EditText) findViewById(R.id.moviePlotET);
         movieInformationTitle = (EditText) findViewById(R.id.movieInformationTitleET);
         year = (EditText) findViewById(R.id.movieYearET);
         rated = (EditText) findViewById(R.id.movieRatedET);
         released = (EditText) findViewById(R.id.movieReleasedET);
         runtime = (EditText) findViewById(R.id.movieRuntimeET);
-        genre = (EditText) findViewById(R.id.movieGenreET);
+        genre = (EditText) findViewById(R.id.MovieGenreET);
         director = (EditText) findViewById(R.id.movieDirectorET);
         save = (Button) findViewById(R.id.movieSaveBtn);
         logo = (ImageView) findViewById(R.id.moviePosterIV);
@@ -83,15 +80,16 @@ public class EditActivity extends AppCompatActivity {
         cancel = (Button) findViewById(R.id.movieEditCancelBtn);
         myRatingBtn = (ImageButton) findViewById(R.id.myRatingIB);
         myRatingTV = (TextView) findViewById(R.id.myRatingTV);
-        cameraIB = (ImageButton) findViewById( R.id .cameraIB) ;
-        save.setText("Add");
-        myRatingTV.setText("Set Rating");
+        cameraIB = (ImageButton) findViewById(R.id.cameraIB);
         isMovieWatchedIB = (ImageButton) findViewById(R.id.isEditMovieWatchedIB);
         isMovieWathcedTV = (TextView) findViewById(R.id.isEditMovieWatchedTV);
+        save.setText("Add");
+        myRatingTV.setText("Set Rating");
         String isMovieWatchedStatus;
 
         if (DbConstants.EDIT_MODE) {
             Intent getInfoFromMainActivity = getIntent();
+            movieTitleFromCursor= getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT);
             save.setText("Update");
             movieId = getInfoFromMainActivity.getIntExtra(DbConstants.MOVIE_ID, -1);
             movieTitle.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT));
@@ -118,21 +116,18 @@ public class EditActivity extends AppCompatActivity {
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadPicture thread1 = new downloadPicture();
-                url.setText("http://pngimg.com/uploads/car_logo/car_logo_PNG1667.png");
+               downloadPicture thread1 = new downloadPicture();
                 thread1.execute(url.getText().toString());
+
             }
         });
         /////////////////////////////////////logo////////////////////////////////
 
-        if(imageString==null){
+        if (imageString == null) {
             logo.setImageResource(R.drawable.noimage);
-        }
-        else {
+        } else {
             logo.setImageBitmap(StringToBitMap(imageString));
         }
-
-
 
 
         ////////////////////////////////////////ratting bar /////////////////////////////////////////////////////////////////
@@ -192,18 +187,13 @@ public class EditActivity extends AppCompatActivity {
         });
 
 
-
-
         /////////////////////////////camera button ./////////////////////////////////////
 
         cameraIB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,DbConstants.CAMERA_REQUEST);
+                TakePictureIntent();
             }
-
-
         });
 
 
@@ -227,18 +217,33 @@ public class EditActivity extends AppCompatActivity {
                 values.put(DbConstants.IS_MOVIE_WATCHED, isMovieWathcedTV.getText().toString());
                 values.put(DbConstants.MOVIE_IMG_STRING, imageString);
 
-                if (DbConstants.EDIT_MODE) {
 
+                String title = movieTitle.getText().toString().trim();
 
-                    sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{movieId.toString()});
-                    DbConstants.EDIT_MODE = false;
-                } else {
-                    sqlDatabase.getWritableDatabase().insert(DbConstants.TABLE_NAME, null, values);
-                    sqlDatabase.close();
+                if (title.length()<=0) {
+                    movieTitle.setBackgroundColor(Color.RED);
+                    Toast.makeText(EditActivity.this, "Movie must have title", Toast.LENGTH_SHORT).show();
                 }
-                finish();
-            }
-        });
+                else {
+                    if (DbConstants.EDIT_MODE) {
+                        sqlDatabase.getWritableDatabase().update(DbConstants.TABLE_NAME, values, "_id=?", new String[]{movieId.toString()});
+                        DbConstants.EDIT_MODE = false;
+                        finish();
+                    } else {
+                        Cursor cursor = sqlDatabase.getReadableDatabase().query(DbConstants.TABLE_NAME, null, null, null, null, null, null);
+                        CheckMovieExist exist = new CheckMovieExist(cursor, title);
+                        if (!exist.check()){
+                            sqlDatabase.getWritableDatabase().insert(DbConstants.TABLE_NAME, null, values);
+                        sqlDatabase.close();
+                            finish();
+                    }
+                        else{
+                            Toast.makeText(EditActivity.this, "Movie Already Exist", Toast.LENGTH_SHORT).show();
+                        }
+                        }
+                    }
+
+                    }});
 
         ////////////////////////////////////////cancel button click listener
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -249,22 +254,15 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
     }
-        @Override
-        public void onBackPressed () {
-            DbConstants.EDIT_MODE = false;
-            super.onBackPressed();
-        }
 
-////////////////////////////////watched option functions////////////////////////////
+    @Override
+    public void onBackPressed() {
+        DbConstants.EDIT_MODE = false;
+        super.onBackPressed();
+    }
+
+    ////////////////////////////////watched option functions////////////////////////////
     public void watched(String status) {
 
         if (status.equals("Unwatched")) {
@@ -278,90 +276,103 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-    public void watchedStatusOnEditMode(String isMovieWatchedStatus){
+    public void watchedStatusOnEditMode(String isMovieWatchedStatus) {
 
-        if(isMovieWatchedStatus.equals("Watched")){
+        if (isMovieWatchedStatus.equals("Watched")) {
             isMovieWathcedTV.setText("Watched");
             isMovieWatchedIB.setBackgroundColor(Color.GREEN);
-        }
-        else
-        {
+        } else {
             isMovieWathcedTV.setText("Unwatched");
             isMovieWatchedIB.setBackgroundColor(Color.DKGRAY);
         }
     }
 
- //////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////url image donwload task////////////////////////////
+    public class downloadPicture extends AsyncTask<String, Void, Bitmap> {
 
-  //////////////////////////////////url image donwload task////////////////////////////
-  public class downloadPicture extends AsyncTask<String, Void, Bitmap> {
+        protected void onPreExecute() {
+            progressPicture = ProgressDialog.show(EditActivity.this, "Download Poster...",
+                    "Please Wait", true, false);
+        }
 
-      protected void onPreExecute() {
-          progressPicture = ProgressDialog.show(EditActivity.this, "Download Poster...",
-                  "Please Wait", true, false);
-      }
+        protected Bitmap doInBackground(String... params) {
 
-      protected Bitmap doInBackground(String... params) {
+            Bitmap image = null;
+            String urlImage = new String(params[0]);
+            try {
+                InputStream in = new java.net.URL((urlImage)).openStream();
+                image = BitmapFactory.decodeStream(in);
+            } catch (Exception ee) {
+                ee.printStackTrace();
+            }
+            return image;
+        }
 
-          Bitmap image = null;
-          String urlImage = new String(params[0]);
-          try {
-              InputStream in = new java.net.URL((urlImage)).openStream();
-              image = BitmapFactory.decodeStream(in);
-          } catch (Exception ee) {
-              ee.printStackTrace();
-          }
-          return image;
-      }
+        protected void onPostExecute(Bitmap ImageResult) {
 
-      protected void onPostExecute(Bitmap ImageResult) {
+            if (ImageResult != null) {
+                logo.setImageBitmap(ImageResult);
+            } else {
+                logo.setImageResource(R.drawable.noimage);
+            }
 
-          if (ImageResult != null) {
-              logo.setImageBitmap(ImageResult);
-          } else {
-              logo.setImageResource(R.drawable.noimage);
-          }
+            findViewById(R.id.activity_edit).setFocusable(true);
+            findViewById(R.id.activity_edit).getDrawingCache(true);
+            imageString = BitMapToString(ImageResult);
+            progressPicture.dismiss();
+        }
 
-          findViewById(R.id.activity_edit).setFocusable(true);
-          findViewById(R.id.activity_edit).getDrawingCache(true);
-          imageString = BitMapToString(ImageResult);
-          progressPicture.dismiss();
-      }
-
-  }
-
-
-    ///////////////////////////////BitMap To String Converting//////////////////
-    public String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
     }
-    ///////////////////////////////String To Bitmap Converting//////////////////
-    public Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
-                    encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
+
+
+        ///////////////////////////////BitMap To String Converting//////////////////
+        public String BitMapToString(Bitmap bitmap) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String temp = Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        }
+
+        ///////////////////////////////String To Bitmap Converting//////////////////
+        public Bitmap StringToBitMap(String encodedString) {
+            try {
+                byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
+                        encodeByte.length);
+                return bitmap;
+            } catch (Exception e) {
+                e.getMessage();
+                return null;
+            }
+        }
+
+
+        public void TakePictureIntent() {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent,REQUEST_IMAGE_CAPTURE);
+                }
+            }
+
+
+        @Override
+
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+               logo.setImageBitmap(imageBitmap);
+                imageString = BitMapToString(imageBitmap);
+            }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if ( requestCode == DbConstants.CAMERA_REQUEST && resultCode == Activity.RESULT_OK){
-         Bitmap myCameraResult = (Bitmap)data.getExtras().get("data");
-            logo.setImageBitmap(myCameraResult);
 
-         imageString =BitMapToString(myCameraResult);
-      }
-    }
-}
+
+
+
+
 
 
 

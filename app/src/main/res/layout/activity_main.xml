@@ -19,21 +19,23 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
             android:id="@+id/listMovieTV" />
 
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:clickable="true"
-        app:srcCompat="@color/colorAccent"
+        app:srcCompat="@android:drawable/ic_menu_add"
         android:id="@+id/floatingBtnAdd"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
-        tools:ignore="RtlHardcoded" />
+        tools:ignore="RtlHardcoded"
+   />
 
 </FrameLayout>
