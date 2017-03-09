@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.dima.my_movie_watch_list", appContext.getPackageName());
+        assertEquals("com.example.dima.simple_watch_library", appContext.getPackageName());
     }
 }

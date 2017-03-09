@@ -2,8 +2,39 @@
     <string name="app_name">Simple Watch Library </string>
     <string name="action_settings">Settings</string>
     <string name="subject">Subject</string>
-    <string name="url">url</string>
-    <string name="show">show</string>
     <string name="cancel">Cancel</string>
+    <string name="editOptMenu">Edit</string>
+    <string name="EditContextMenu">Edit</string>
+    <string name="RemoveContextMenu">Remove</string>
+    <string name="ClearAllOptMenu">Clear All</string>
+    <string name="ExitOptMenu">Exit</string>
+    <string name="AlertDialogSelect">Select</string>
+    <string name="AlertDialogMessage">Note : in search mode you need active internet connection!</string>
+    <string name="AlertDialogManual">Manual</string>
+    <string name="AlertDialogSearch">Search Online</string>
+    <string name="MovieTitle">Movie Title</string>
+    <string name="MovieMyRating">Set Rating</string>
+    <string name="NotAvalibale">N/A</string>
+    <string name="WatchStatusFalse">Unwatched</string>
+    <string name="WatchStatusTrue">Watched</string>
+    <string name="PlotMovie">Plot</string>
+    <string name="MovieInformation">Information</string>
+    <string name="MovieInfoTitle">Title</string>
+    <string name="MovieInfoYear">Year</string>
+    <string name="MovieInfoRated">Rated</string>
+    <string name="MovieInfoReleased">Released</string>
+    <string name="MovieInfoRuntime">Runtime</string>
+    <string name="MovieInfoGenre">Genre</string>
+    <string name="MovieInfoDirector">Director</string>
+    <string name="MovieWatchAddBtn">Add</string>
+    <string name="EditActivityUrl">Poster Url</string>
+    <string name="EditActivityShowBtn">Show</string>
+    <string name="EditActivityCamera">Camera</string>
+    <string name="EditActivityAddBtn">Add</string>
+    <string name="RankDialogUpdateBtn">Update</string>
+    <string name="SearchActivityGoBtn">Go</string>
+    <string name="SearchActivitySearchHint">Search</string>
+    <string name="EditActivityUpdateBtn">Update</string>
+
 
 </resources>

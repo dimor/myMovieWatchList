@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.dima.my_movie_watch_list.SearchActivity">
+    tools:context="com.example.dima.simple_watch_library.SearchActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -17,7 +17,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:weightSum="1"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -25,7 +26,8 @@
             android:weightSum="4"
             android:layout_height="0dp"
             android:layout_weight="0.2"
-            android:elevation="1dp">
+            android:elevation="1dp"
+            tools:ignore="UnusedAttribute">
 
             <EditText
                 android:layout_width="0dp"
@@ -33,11 +35,12 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/searchET"
-                android:hint="Search"
-                android:layout_weight="3" />
+                android:hint="@string/SearchActivitySearchHint"
+                android:layout_weight="3"
+                tools:ignore="NestedWeights" />
 
             <Button
-                android:text="Go"
+                android:text="@string/SearchActivityGoBtn"
                 android:layout_height="match_parent"
                 android:id="@+id/goBtn"
                 android:layout_weight="1"
@@ -52,7 +55,7 @@
             android:layout_height="0dp" />
 
         <Button
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/cancelBtn"

@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 /**
  * Created by Dima on 2/7/2017.
@@ -8,17 +8,12 @@ public class MovieData {
 
     private int id;
     private String subject;
-    private String body;
     private String url;
     private String imdbID;
 
 
     ///////////////////////////////////////////////////////////Constractors/////////////////////////////////////////
     public MovieData() {
-    }
-    public MovieData(String title , String imdbID) {
-        this.subject=title;
-        this.imdbID = imdbID;
     }
     public MovieData(String subject, String url, String imdbID) {
         this.subject = subject;

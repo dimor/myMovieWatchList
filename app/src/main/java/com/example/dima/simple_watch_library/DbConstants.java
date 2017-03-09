@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 /**
  * Created by Dima on 2/7/2017.

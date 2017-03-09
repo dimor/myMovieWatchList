@@ -18,7 +18,9 @@
         android:id="@+id/logoIV"
         android:padding="2dp"
         android:layout_weight="1"
-        android:layout_width="0dp" />
+        android:layout_width="0dp"
+        android:contentDescription=""
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -31,10 +33,11 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="NestedWeights,UseCompoundDrawables">
 
             <TextView
-                android:text="Title"
+                android:text="@string/NotAvalibale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/titleTv"
@@ -46,12 +49,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_menu_view"
-                android:id="@+id/isMovieWatchedIV" />
+                android:id="@+id/isMovieWatchedIV"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
         <TextView
-            android:text="Year"
+            android:text="@string/NotAvalibale"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/yearTV"
@@ -65,54 +69,51 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 app:srcCompat="@drawable/imdb"
                 android:id="@+id/imageView5"
                 android:layout_height="match_parent"
                 android:layout_width="20dp"
-                android:padding="3dp" />
+                android:padding="3dp"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:text="TextView"
+                android:text="@string/NotAvalibale"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/imdbTV"
                 android:layout_weight="1"
                 android:textSize="10sp"
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                tools:ignore="InefficientWeight,SmallSp" />
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/myrating"
                 android:id="@+id/imageView6"
                 android:layout_width="20dp"
-                android:padding="3dp" />
+                android:padding="3dp"
+                tools:ignore="ContentDescription" />
 
             <TextView
-                android:text="TextView"
+                android:text="@string/NotAvalibale"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/myRatingTV"
                 android:textSize="10sp"
-                android:paddingTop="4dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-
-            </LinearLayout>
+                android:paddingTop="4dp"
+                tools:ignore="SmallSp" />
 
 
         </LinearLayout>

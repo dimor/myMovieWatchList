@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -26,9 +26,9 @@ public class MovieListAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-        View v= LayoutInflater.from(context).inflate(R.layout.main_listview_item , null);
+        View view= LayoutInflater.from(context).inflate(R.layout.main_listview_item , null);
 
-        return v;
+        return view;
     }
 
     @Override

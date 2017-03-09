@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#607D8B</color>
-    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorPrimaryDark">#37474F</color>
     <color name="colorAccent">#607D8B</color>
     <color name="background_light_green">#CFD8DC</color>
     <color name="background_listview_item">#eceff1</color>
+    <color name="unWatched">#CFD8DC</color>
+    <color name="Watched">#00E676</color>
+
 </resources>

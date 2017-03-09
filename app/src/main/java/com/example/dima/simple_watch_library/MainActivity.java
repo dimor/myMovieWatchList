@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,9 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import static com.example.dima.my_movie_watch_list.DbConstants.COMES_FROM_MAIN_ACTIVITY;
-import static com.example.dima.my_movie_watch_list.DbConstants.EDIT_MODE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 moveToWatchActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
                 moveToWatchActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
                 moveToWatchActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
-                COMES_FROM_MAIN_ACTIVITY = true;
+                DbConstants.COMES_FROM_MAIN_ACTIVITY = true;
                 startActivity(moveToWatchActivity);
             }
 
@@ -118,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
     public void buildDialog() {
 
         AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-        alertDialog.setTitle("Select");
-        alertDialog.setMessage("Note : in search mode you need active internet connection!");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Manual",
+        alertDialog.setTitle(getString(R.string.AlertDialogSelect));
+        alertDialog.setMessage(getString(R.string.AlertDialogMessage));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.AlertDialogManual),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent goToEdit = new Intent(MainActivity.this, EditActivity.class);
@@ -128,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Search Online",
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.AlertDialogSearch),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent searchDataonWeb = new Intent(MainActivity.this, SearchActivity.class);
@@ -201,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_ID,cursor.getInt(cursor.getColumnIndex(DbConstants.MOVIE_ID)));
                     moveToWatchActivity.putExtra(DbConstants.MOVIE_MY_RATING,cursor.getString(cursor.getColumnIndex(DbConstants.MOVIE_MY_RATING)));
                     moveToWatchActivity.putExtra(DbConstants.IS_MOVIE_WATCHED,cursor.getString(cursor.getColumnIndex(DbConstants.IS_MOVIE_WATCHED)));
-                    COMES_FROM_MAIN_ACTIVITY = true;
+                    DbConstants.COMES_FROM_MAIN_ACTIVITY = true;
                     startActivity(moveToWatchActivity);
                 }
             }

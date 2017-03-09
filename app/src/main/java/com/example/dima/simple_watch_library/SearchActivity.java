@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -46,13 +47,18 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  search = ((EditText) findViewById(R.id.searchET)).getText().toString();
-                try {
-                    String url = URLEncoder.encode(search, "UTF-8");
-                    new downloadStringFromNetThread().execute("http://www.omdbapi.com/?s=" + url);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
+                if(search.equals(""))
+                {
+                    Toast.makeText(SearchActivity.this, "Type something , search bar is empty", Toast.LENGTH_SHORT).show();
                 }
-
+                else {
+                    try {
+                        String url = URLEncoder.encode(search, "UTF-8");
+                        new downloadStringFromNetThread().execute("http://www.omdbapi.com/?s=" + url);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 

@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.dima.my_movie_watch_list.WatchActivity">
+    tools:context="com.example.dima.simple_watch_library.WatchActivity">
 
 
     <ScrollView
@@ -32,7 +32,7 @@
                 android:layout_margin="3dp">
 
                 <TextView
-                    android:text="N/A"
+                    android:text="@string/NotAvalibale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/movieNameTV"
@@ -53,7 +53,8 @@
                     android:layout_height="300dp"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription,UnusedAttribute" />
 
             </LinearLayout>
 
@@ -74,10 +75,11 @@
                         android:id="@+id/imageView3"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_margin="5dp" />
+                        android:layout_margin="5dp"
+                        tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:text="N/A"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:id="@+id/movieImdbRatingTV"
@@ -102,10 +104,11 @@
                         android:id="@+id/myRatingIB"
                         android:layout_gravity="center"
                         style="@android:style/Widget.DeviceDefault.Light.ImageButton"
-                        android:layout_margin="5dp" />
+                        android:layout_margin="5dp"
+                        tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:text="Set Rating"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/myMovieRatingTV"
@@ -132,10 +135,11 @@
                         android:layout_gravity="center"
                         style="@style/Widget.AppCompat.ImageButton"
                         android:layout_margin="5dp"
-                        android:background="@android:color/darker_gray" />
+                        android:background="@color/unWatched"
+                        tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:text="Unwatched"
+                        android:text="@string/WatchStatusFalse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/isMovieWatched"
@@ -159,7 +163,7 @@
                 android:background="@drawable/borders">
 
                 <TextView
-                    android:text="Plot"
+                    android:text="@string/PlotMovie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -172,7 +176,8 @@
                     android:id="@+id/moviePlotTV"
                     android:textSize="14sp"
                     android:layout_height="wrap_content"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:text="@string/NotAvalibale" />
             </LinearLayout>
 
             <LinearLayout
@@ -183,7 +188,7 @@
                 android:background="@drawable/borders">
 
                 <TextView
-                    android:text="Information"
+                    android:text="@string/MovieInformation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -197,7 +202,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Title"
+                        android:text="@string/MovieInfoTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView5"
@@ -205,7 +210,7 @@
                         android:padding="5dp" />
 
                     <TextView
-                        android:text="title"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/movieInformationTitleTV"
@@ -220,14 +225,14 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Year"
+                        android:text="@string/MovieInfoYear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:text="year"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -242,14 +247,14 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Rated"
+                        android:text="@string/MovieInfoRated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="5dp" />
 
                     <TextView
-                        android:text="rate"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -264,14 +269,14 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Released"
+                    android:text="@string/MovieInfoReleased"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                   android:padding="5dp" />
 
                 <TextView
-                    android:text="Released"
+                    android:text="@string/NotAvalibale"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -285,14 +290,14 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Runtime"
+                        android:text="@string/MovieInfoRuntime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="5dp" />
 
                     <TextView
-                        android:text="runtime"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -306,14 +311,14 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Genre"
+                        android:text="@string/MovieInfoGenre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="5dp" />
 
                     <TextView
-                        android:text="genre"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -327,14 +332,14 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Director"
+                        android:text="@string/MovieInfoDirector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:padding="5dp" />
 
                     <TextView
-                        android:text="Director"
+                        android:text="@string/NotAvalibale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
@@ -371,7 +376,7 @@
                     android:layout_margin="5dp" />
 
                 <Button
-                    android:text="add"
+                    android:text="@string/MovieWatchAddBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/movieSaveBtn"

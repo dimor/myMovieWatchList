@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,8 +11,11 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +24,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.UnknownHostException;
 
 public class EditActivity extends AppCompatActivity {
     SqlDatabase sqlDatabase;
@@ -83,14 +88,14 @@ public class EditActivity extends AppCompatActivity {
         cameraIB = (ImageButton) findViewById(R.id.cameraIB);
         isMovieWatchedIB = (ImageButton) findViewById(R.id.isEditMovieWatchedIB);
         isMovieWathcedTV = (TextView) findViewById(R.id.isEditMovieWatchedTV);
-        save.setText("Add");
-        myRatingTV.setText("Set Rating");
+        save.setText(getString(R.string.EditActivityAddBtn));
+        myRatingTV.setText(getString(R.string.MovieMyRating));
         String isMovieWatchedStatus;
 
         if (DbConstants.EDIT_MODE) {
             Intent getInfoFromMainActivity = getIntent();
             movieTitleFromCursor= getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT);
-            save.setText("Update");
+            save.setText(R.string.EditActivityUpdateBtn);
             movieId = getInfoFromMainActivity.getIntExtra(DbConstants.MOVIE_ID, -1);
             movieTitle.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_SUBJECT));
             url.setText(getInfoFromMainActivity.getStringExtra(DbConstants.MOVIE_URL_IMAGE));
@@ -117,7 +122,15 @@ public class EditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                downloadPicture thread1 = new downloadPicture();
-                thread1.execute(url.getText().toString());
+                if(Patterns.WEB_URL.matcher(url.getText()).matches()){   //url validation check
+
+                    thread1.execute(url.getText().toString());
+
+                }
+                else
+                {
+                    Toast.makeText(EditActivity.this, "Url not valid", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -266,11 +279,15 @@ public class EditActivity extends AppCompatActivity {
     public void watched(String status) {
 
         if (status.equals("Unwatched")) {
-            isMovieWathcedTV.setText("Watched");
-            isMovieWatchedIB.setBackgroundColor(Color.GREEN);
+            isMovieWathcedTV.setText(R.string.WatchStatusTrue);
+            isMovieWatchedIB.setBackgroundColor(getResources().getColor(R.color.Watched));
+            Toast.makeText(EditActivity.this, movieTitle.getText().toString() +" set to Watched", Toast.LENGTH_SHORT).show();
+
         } else {
-            isMovieWathcedTV.setText("Unwatched");
-            isMovieWatchedIB.setBackgroundColor(Color.DKGRAY);
+            isMovieWathcedTV.setText(R.string.WatchStatusFalse);
+            isMovieWatchedIB.setBackgroundColor(getResources().getColor(R.color.unWatched));
+            Toast.makeText(EditActivity.this, movieTitle.getText().toString() +" set to Unwatched", Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -279,11 +296,11 @@ public class EditActivity extends AppCompatActivity {
     public void watchedStatusOnEditMode(String isMovieWatchedStatus) {
 
         if (isMovieWatchedStatus.equals("Watched")) {
-            isMovieWathcedTV.setText("Watched");
-            isMovieWatchedIB.setBackgroundColor(Color.GREEN);
+            isMovieWathcedTV.setText(R.string.WatchStatusTrue);
+            isMovieWatchedIB.setBackgroundColor(getResources().getColor(R.color.Watched));
         } else {
-            isMovieWathcedTV.setText("Unwatched");
-            isMovieWatchedIB.setBackgroundColor(Color.DKGRAY);
+            isMovieWathcedTV.setText(R.string.WatchStatusFalse);
+            isMovieWatchedIB.setBackgroundColor(getResources().getColor(R.color.unWatched));
         }
     }
 
@@ -302,9 +319,15 @@ public class EditActivity extends AppCompatActivity {
             try {
                 InputStream in = new java.net.URL((urlImage)).openStream();
                 image = BitmapFactory.decodeStream(in);
+                if(image.getByteCount()==0){
+                    progressPicture.dismiss();
+                }
+
             } catch (Exception ee) {
                 ee.printStackTrace();
+
             }
+
             return image;
         }
 
@@ -312,13 +335,14 @@ public class EditActivity extends AppCompatActivity {
 
             if (ImageResult != null) {
                 logo.setImageBitmap(ImageResult);
+                findViewById(R.id.activity_edit).setFocusable(true);
+                findViewById(R.id.activity_edit).getDrawingCache(true);
+                imageString = BitMapToString(ImageResult);
             } else {
                 logo.setImageResource(R.drawable.noimage);
             }
 
-            findViewById(R.id.activity_edit).setFocusable(true);
-            findViewById(R.id.activity_edit).getDrawingCache(true);
-            imageString = BitMapToString(ImageResult);
+
             progressPicture.dismiss();
         }
 

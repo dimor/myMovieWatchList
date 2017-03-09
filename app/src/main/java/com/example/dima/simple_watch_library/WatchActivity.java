@@ -1,4 +1,4 @@
-package com.example.dima.my_movie_watch_list;
+package com.example.dima.simple_watch_library;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -113,11 +112,11 @@ public class WatchActivity extends AppCompatActivity {
 
             watchedTV.setText(isMovieWatchedString);
                 if( watchedTV.getText().toString().equals("Unwatched")) {
-                    watchedIB.setBackgroundColor(Color.DKGRAY);
+                    watchedIB.setBackgroundColor(getResources().getColor(R.color.unWatched));
                 }
                 else
                 {
-                    watchedIB.setBackgroundColor(Color.GREEN);
+                    watchedIB.setBackgroundColor(getResources().getColor(R.color.Watched));
                 }
 
                 DbConstants.COMES_FROM_MAIN_ACTIVITY = false;
@@ -142,7 +141,7 @@ public class WatchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if( watchedTV.getText().toString().equals("Unwatched")) {
                     watchedTV.setText("Watched");
-                    watchedIB.setBackgroundColor(Color.GREEN);
+                    watchedIB.setBackgroundColor(getResources().getColor(R.color.Watched));
                     if(idsql!=-1){
                         ContentValues values = new ContentValues();
                         values.put(DbConstants.IS_MOVIE_WATCHED,watchedTV.getText().toString());
@@ -151,7 +150,7 @@ public class WatchActivity extends AppCompatActivity {
                     }
                 }else{
                     watchedTV.setText("Unwatched");
-                    watchedIB.setBackgroundColor(Color.DKGRAY);
+                    watchedIB.setBackgroundColor(getResources().getColor(R.color.unWatched));
                     if(idsql!=-1){
                         ContentValues values = new ContentValues();
                         values.put(DbConstants.IS_MOVIE_WATCHED,watchedTV.getText().toString());
